@@ -2,6 +2,17 @@
 
 Use this reference for query design, keys, reusable definitions, pagination, and query-state rendering. Confirm exact option and return types against the installed `@pinia/colada` declarations.
 
+## Contents
+
+- [Basic query](#basic-query)
+- [Reactive inputs and keys](#reactive-inputs-and-keys)
+- [Query metadata](#query-metadata)
+- [Error typing](#error-typing)
+- [Freshness and lifetime](#freshness-and-lifetime)
+- [Placeholder and paginated data](#placeholder-and-paginated-data)
+- [Reusable queries](#reusable-queries)
+- [Cancellation](#cancellation)
+
 ## Basic query
 
 Use queries for asynchronous reads:
@@ -48,6 +59,8 @@ const contact = useQuery({
 
 Keys must be non-empty, serializable arrays. Structure them from broad to specific so prefix matching is useful. Object property order does not change key identity, but array order and primitive types do.
 
+Include user, tenant, locale, permission scope, or other identity dimensions in authenticated query keys whenever the same app/cache can change that context. Do this even when the API client applies identity implicitly. Clear or invalidate identity-bound entries during context changes; persistence partitioning does not isolate the in-memory query cache.
+
 Create key factories and reusable options once a project has more than a few queries:
 
 ```ts
@@ -73,6 +86,39 @@ const result = useQuery(() => contactQuery(route.params.id as string))
 ```
 
 Do not mechanically refactor a small project solely to introduce factories. Preserve an established key convention when it is already consistent and safe.
+
+## Query metadata
+
+Use `meta` for declarative information that global hooks or plugins need, not for reactive component state:
+
+```ts
+useQuery({
+  key: contactKeys.detail(id),
+  query: () => api.contacts.get(id),
+  meta: {
+    errorMessage: 'Unable to load this contact',
+    auditArea: 'contacts',
+  },
+})
+```
+
+Keep metadata serializable when another integration may persist or inspect it. Augment Pinia Colada's query-meta type only when the installed version exposes a supported augmentation interface; verify its exact name in local declarations. Keep UI-local side effects in the component and cross-cutting effects in the query-hooks plugin.
+
+## Error typing
+
+Pinia Colada uses `Error` as the default error type. Set a project-wide type through supported module augmentation:
+
+```ts
+import '@pinia/colada'
+
+declare module '@pinia/colada' {
+  interface TypesConfig {
+    defaultError: unknown
+  }
+}
+```
+
+Prefer `unknown` when callers must narrow every thrown value, or use the application's shared error base type. Use the grouped `state` discriminated union to narrow `data` and `error` from `status`. Errors cannot be made reliable merely through a TypeScript assertion; ensure API clients actually throw the modeled values.
 
 ## Freshness and lifetime
 
@@ -135,6 +181,6 @@ Call defined queries within component setup, a store, or an active effect scope 
 
 ## Cancellation
 
-Treat cancellation as cooperative. Use the abort signal or cancellation mechanism exposed by the installed version inside the request function, and avoid committing results from obsolete requests. Cancel relevant in-flight work before an optimistic cache write when an older response could overwrite it.
+Treat cancellation as cooperative. Use the abort signal or cancellation mechanism exposed by the installed version inside the request function, and avoid committing results from obsolete requests. During an optimistic mutation, snapshot current data, cancel relevant in-flight work, then write the optimistic value so an older response cannot overwrite it.
 
 Official topics: [Queries](https://pinia-colada.esm.dev/guide/queries.html), [Query keys](https://pinia-colada.esm.dev/guide/query-keys.html), and [Infinite queries](https://pinia-colada.esm.dev/guide/infinite-queries.html).

@@ -20,7 +20,9 @@ If a bundled reference conflicts with installed TypeScript declarations or sourc
 
 - Read [references/queries.md](references/queries.md) for `useQuery`, key factories, reusable queries, pagination, infinite queries, status handling, and TypeScript.
 - Read [references/cache-and-mutations.md](references/cache-and-mutations.md) for `useMutation`, invalidation, cache operations, prefetching, and optimistic updates.
-- Read [references/integrations.md](references/integrations.md) for Vue setup, Nuxt, custom SSR, plugins, persistence, testing, and TanStack Vue Query migrations.
+- Read [references/integrations.md](references/integrations.md) for Vue setup, Nuxt, custom SSR, and testing.
+- Read [references/plugins-and-persistence.md](references/plugins-and-persistence.md) for official plugins, cache persistence, custom plugin authoring, module augmentation, and plugin lifecycle.
+- Read [references/migration.md](references/migration.md) for TanStack Vue Query migration, compatibility helpers, semantic differences, and Pinia Colada version codemods.
 - Read [references/troubleshooting.md](references/troubleshooting.md) when diagnosing runtime codes, injection-context failures, cache misuse, or infinite-query errors.
 
 These references are intentionally curated rather than copies of upstream documentation. If the user asks for current or version-specific behavior that local declarations do not answer, consult the matching page in the [official Pinia Colada documentation](https://pinia-colada.esm.dev/) and state which version or source you followed.

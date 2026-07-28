@@ -2,6 +2,16 @@
 
 Use this reference for writes, invalidation, direct cache work, prefetching, and optimistic updates. Confirm exact callback signatures against the installed package.
 
+## Contents
+
+- [Mutations](#mutations)
+- [Reusable mutations](#reusable-mutations)
+- [Query cache](#query-cache)
+- [Prefetching](#prefetching)
+- [Mutation consistency strategies](#mutation-consistency-strategies)
+- [Optimistic update checklist](#optimistic-update-checklist)
+- [Concurrent mutation policy](#concurrent-mutation-policy)
+
 ## Mutations
 
 Use mutations for asynchronous operations with side effects:
@@ -22,6 +32,23 @@ const createTodo = useMutation({
 - Hooks may return promises. Awaiting invalidation in a hook keeps the mutation loading until dependent data is refreshed.
 
 Mutations are not global by default. Add a mutation key when another component needs to find matching entries through the mutation cache.
+
+## Reusable mutations
+
+Use `defineMutationOptions()` to share typed mutation configuration and `defineMutation()` when callers should share a mutation composable with extra state or methods:
+
+```ts
+export const updateContactOptions = defineMutationOptions({
+  key: ['contacts', 'update'],
+  mutation: (input: UpdateContactInput) => api.contacts.update(input),
+})
+
+export const useUpdateContact = defineMutation(() =>
+  useMutation(updateContactOptions),
+)
+```
+
+Use the object form of `defineMutation()` when only organized reusable options are needed and the installed version supports it. Call a defined mutation within component setup, a store, or an active effect scope. Do not invoke it at module top level or from a later callback without an owning scope.
 
 ## Query cache
 
@@ -92,9 +119,9 @@ Adjust hook parameters to the locally installed declarations.
 An optimistic cache update needs all of the following:
 
 1. Snapshot the previous value.
-2. Construct a complete optimistic value without mutating cached objects in place.
-3. Write the optimistic value.
-4. Cancel related in-flight queries that could overwrite it.
+2. Cancel related in-flight queries that could overwrite it.
+3. Construct a complete optimistic value without mutating cached objects in place.
+4. Write the optimistic value.
 5. Return rollback context from `onMutate`.
 6. On error, restore only if the optimistic value is still current; another mutation may have superseded it.
 7. On success, merge or replace with the server response.
@@ -103,14 +130,15 @@ An optimistic cache update needs all of the following:
 ```ts
 const patchContact = useMutation({
   mutation: api.contacts.patch,
-  onMutate(input) {
+  async onMutate(input) {
     const key = contactKeys.detail(input.id)
     const previous = queryCache.getQueryData<Contact>(key)
     const optimistic = previous && { ...previous, ...input }
 
+    await queryCache.cancelQueries({ key, exact: true })
+
     if (optimistic) {
       queryCache.setQueryData(key, optimistic)
-      queryCache.cancelQueries({ key, exact: true })
     }
 
     return { key, previous, optimistic }
@@ -133,5 +161,17 @@ const patchContact = useMutation({
 ```
 
 Avoid optimistic updates when rollback would be ambiguous, the server applies complex transformations, or concurrent edits cannot be reconciled safely. A pending UI row driven by mutation `variables` is often simpler than modifying the cache.
+
+## Concurrent mutation policy
+
+An identity check prevents an older rollback from overwriting a newer cached object, but it does not make overlapping mutations fully ordered. Choose and document one policy for operations that touch the same entity or list:
+
+- **Serialize locally:** queue same-resource mutations and start the next only after settlement. Use when latency is acceptable and the client is the only writer.
+- **Last response wins:** allow overlap and accept response order. Use only when operations are commutative or overwrites are harmless.
+- **Client sequence:** attach a monotonically increasing local revision and ignore responses older than the current revision. This protects one client but not conflicts from other clients.
+- **Server concurrency control:** send an ETag, version, or revision and handle conflicts explicitly. Prefer this for multi-user edits or valuable data.
+- **Reconcile from server:** invalidate after every settlement and treat server state as final. This is safest when temporary UI reordering is acceptable.
+
+When a mutation affects both list and detail entries, snapshot and guard each touched value independently. Do not restore an entire list if a newer mutation changed a different item. Test success and failure in both completion orders for two overlapping operations.
 
 Official topics: [Mutations](https://pinia-colada.esm.dev/guide/mutations.html), [Query invalidation](https://pinia-colada.esm.dev/guide/query-invalidation.html), and [Query cache](https://pinia-colada.esm.dev/advanced/query-cache.html).

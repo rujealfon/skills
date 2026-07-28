@@ -1,29 +1,36 @@
 # Agent Skills
 
-A skills.sh-compatible catalog of reusable agent skills.
+A skills.sh-compatible catalog of reusable agent skills maintained in this
+repository.
 
 ## Available skills
 
-### Pinia Colada
+| Skill | Description |
+| --- | --- |
+| [Pinia Colada](skills/pinia-colada/README.md) | Build, review, migrate, test, and troubleshoot async data workflows with Pinia Colada in Vue and Nuxt applications. |
 
-Build, review, migrate, test, and troubleshoot async data workflows with Pinia Colada in Vue and Nuxt applications.
+## Installation
 
-Install it with:
+Install a skill by its directory name:
+
+```bash
+npx skills add rujealfon/skills --skill <skill-name>
+```
+
+For example:
 
 ```bash
 npx skills add rujealfon/skills --skill pinia-colada
 ```
 
-Then ask your agent:
+## Adding a skill
 
-```text
-Use $pinia-colada to implement and verify async data fetching in this Vue application.
-```
+Place each skill in its own `skills/<skill-name>/` directory with a
+`SKILL.md`. Keep skill-specific usage, installation examples, and supporting
+documentation inside that directory.
 
-The skill bundles concise references for queries, cache and mutations,
-integrations, testing, migrations, and troubleshooting. Agents are instructed
-to prefer the target project's installed package types when reference guidance
-and the installed version differ.
+When adding another skill, add one row to the **Available skills** table above
+and link to its README.
 
 ## License
 

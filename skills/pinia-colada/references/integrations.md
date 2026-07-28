@@ -1,6 +1,13 @@
-# Integrations, testing, and migration
+# Integrations and testing
 
-Use this reference for application setup, Nuxt, custom SSR, plugins, persistence, testing, and migrations.
+Use this reference for application setup, Nuxt, custom SSR, and testing.
+
+## Contents
+
+- [Vue application setup](#vue-application-setup)
+- [Nuxt](#nuxt)
+- [Custom SSR](#custom-ssr)
+- [Testing](#testing)
 
 ## Vue application setup
 
@@ -79,22 +86,6 @@ useQueryCache(pinia).caches.clear()
 
 The Nuxt module handles SSR cache serialization, disables server GC timers, and clears request cache automatically. In custom SSR, never share one Pinia/query cache across user requests.
 
-## Plugins
-
-Register plugins during `PiniaColada` installation. Order matters when plugins observe or extend the same cache actions.
-
-Built-in query hooks can centralize logging, analytics, and declarative error messages stored in query `meta`. Optional official packages cover retry, auto-refetch, loading delay, and cache persistence. Inspect the installed plugin package's types before using its options.
-
-Keep these constraints in mind:
-
-- Retry only failures that are safe and likely transient; avoid retrying validation or most authorization errors.
-- Give auto-refetch a meaningful interval or `staleTime`, and avoid server timers.
-- Use loading delay to prevent refresh flicker without hiding the initial pending state.
-- Persist only serializable, non-sensitive entries. Version or invalidate persisted data when schemas or user identity change.
-- Apply persistence filters so user-specific or short-lived data does not leak across sessions.
-
-Write a custom plugin only when behavior truly belongs at the cache layer. Prefer public hooks and APIs over direct mutation of internal entries.
-
 ## Testing
 
 For component tests, mount with a new Pinia and Pinia Colada instance for every test:
@@ -122,20 +113,5 @@ export function mountWithData(component: Component) {
 - For cache behavior, verify deduplication, stale/fresh behavior, invalidation scope, and cleanup.
 - For optimistic mutations, test success reconciliation, rollback, and overlapping operations.
 - For SSR, verify no cross-request cache reuse and correct hydration without a duplicate request.
-
-## Migration
-
-When migrating from TanStack Vue Query:
-
-1. Inventory query keys, default options, lifecycle callbacks, cache calls, infinite queries, persistence, and SSR behavior.
-2. Move keys into serializable hierarchical arrays and shared factories.
-3. Convert reads to `useQuery()` and writes to `useMutation()`.
-4. Map freshness and garbage-collection semantics deliberately; do not assume option names share identical defaults.
-5. Replace per-query side-effect callbacks with mutation hooks, query-hook plugins, watchers, or component logic as appropriate.
-6. Convert invalidation filters and optimistic updates against Pinia Colada's cache API.
-7. Migrate infinite-query page parameters and direction behavior explicitly.
-8. Run both implementations behind targeted tests before removing the old provider and dependencies.
-
-Use compatibility helpers only as a temporary bridge when the installed Pinia Colada version provides them. Avoid preserving an abstraction that hides semantic differences indefinitely.
 
 Official topics: [Nuxt](https://pinia-colada.esm.dev/nuxt.html), [SSR](https://pinia-colada.esm.dev/guide/ssr.html), and [Testing](https://pinia-colada.esm.dev/cookbook/testing.html).
