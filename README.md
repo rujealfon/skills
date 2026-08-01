@@ -8,6 +8,7 @@ repository.
 | Skill | Description |
 | --- | --- |
 | [Pinia Colada](skills/pinia-colada/README.md) | Build, review, migrate, test, and troubleshoot async data workflows with Pinia Colada in Vue and Nuxt applications. |
+| [Drizzle Postgres](skills/drizzle-postgres/README.md) | Build, migrate, query, and troubleshoot PostgreSQL data layers with Drizzle ORM and Drizzle Kit. |
 
 ## Installation
 
