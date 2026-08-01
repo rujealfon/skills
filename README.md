@@ -9,6 +9,7 @@ repository.
 | --- | --- |
 | [Pinia Colada](skills/pinia-colada/README.md) | Build, review, migrate, test, and troubleshoot async data workflows with Pinia Colada in Vue and Nuxt applications. |
 | [Drizzle Postgres](skills/drizzle-postgres/README.md) | Build, migrate, query, and troubleshoot PostgreSQL data layers with Drizzle ORM and Drizzle Kit. |
+| [Zod](skills/zod/README.md) | Define, validate, and parse data with Zod (v4) — schemas, refinements/transforms, error handling, codecs, JSON Schema conversion, and Zod 3 → 4 migration. |
 
 ## Installation
 
