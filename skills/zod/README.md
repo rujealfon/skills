@@ -4,6 +4,11 @@ Define, validate, and parse data with Zod (v4) — request bodies, form inputs,
 environment variables, API responses, and any other untrusted or external
 data in TypeScript/JavaScript.
 
+## Version
+
+- Skill version: **1.0.0** — see [CHANGELOG.md](CHANGELOG.md)
+- Tracks: `zod` 4.x — verified against 4.4.3 on 2026-08-22
+
 ## Installation
 
 Install the skill with:
