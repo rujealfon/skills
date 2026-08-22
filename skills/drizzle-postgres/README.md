@@ -3,6 +3,16 @@
 Build, migrate, query, and troubleshoot PostgreSQL data layers with Drizzle
 ORM and Drizzle Kit.
 
+## Version
+
+- Skill version: **1.0.0** — see [CHANGELOG.md](CHANGELOG.md)
+- Tracks: `drizzle-orm` 0.45.x — verified against 0.45.2 on 2026-08-22
+- Tracks: `drizzle-kit` 0.31.x — verified against 0.31.10 on 2026-08-22
+- **Pending upstream: `drizzle-orm` 1.0** is in release candidate (1.0.0-rc.5, 2026-08-12). This skill is accurate for the current 0.45.x stable line and deliberately has *not* been rewritten against the RC. When 1.0 ships stable, at minimum these need revisiting before bumping the tracked line:
+  - **Casing config moved** from `drizzle({ casing })` / `drizzle.config.ts` to table-level builders (`snakeCase.table(...)`) — affects `SKILL.md`, `references/schema.md`, `references/migrations.md`.
+  - **RQBv1 removed** — the legacy `relations()`/`one()`/`many()` half of `references/relations.md` becomes dead weight.
+  - **Not yet covered**: codecs, JIT mappers, SQLCommenter (`.comment()`), and Drizzle Kit's JSON output / programmatic SDK / MCP server.
+
 ## Installation
 
 Install the skill with:
