@@ -3,6 +3,13 @@
 Build, migrate, query, and troubleshoot PostgreSQL data layers with Drizzle
 ORM and Drizzle Kit.
 
+## Version
+
+- Skill version: **1.0.0** — see [CHANGELOG.md](CHANGELOG.md)
+- Tracks: `drizzle-orm` 0.45.x — verified against 0.45.2 on 2026-08-22
+- Tracks: `drizzle-kit` 0.31.x — verified against 0.31.10 on 2026-08-22
+- **Pending upstream: `drizzle-orm` 1.0** is in release candidate (1.0.0-rc.5, 2026-08-12). The skill still treats 0.45.x as the primary target, since that is what remains stable, but 1.0's breaking changes are documented in [references/migration-0.45-to-1.0.md](references/migration-0.45-to-1.0.md) and the version-sensitive guidance elsewhere now covers both lines. When 1.0 ships stable, re-verify that reference against the release build, flip the primary target, and bump the tracked line.
+
 ## Installation
 
 Install the skill with:
@@ -42,6 +49,7 @@ reference, since the relations API in particular changed between versions.
 - [references/migrations.md](references/migrations.md) covers Drizzle Kit config, commands, and seeding.
 - [references/connections.md](references/connections.md) covers driver setup per provider.
 - [references/postgres-advanced.md](references/postgres-advanced.md) covers RLS, sequences, extensions, and validation integration.
+- [references/migration-0.45-to-1.0.md](references/migration-0.45-to-1.0.md) covers the 0.45.x → 1.0 breaking changes and migration checklist.
 
 ## License
 
