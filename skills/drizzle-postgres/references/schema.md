@@ -33,6 +33,7 @@ Match whatever convention the project already uses — check existing tables and
 - `text()` — unlimited length
 - `varchar({ length })` — bounded length
 - `char({ length })` — fixed length, blank-padded
+- Postgres arrays: `text().array()`, `integer().array()` — chain `.array()` on a column builder. On 1.0, multidimensional arrays use `column.array('[][]')` instead of `.array().array()`; see [migration-0.45-to-1.0.md](migration-0.45-to-1.0.md).
 
 **Other scalars**
 - `boolean()`
