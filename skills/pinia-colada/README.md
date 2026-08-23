@@ -7,6 +7,7 @@ with Pinia Colada in Vue and Nuxt applications.
 
 - Skill version: **1.0.1** — see [CHANGELOG.md](CHANGELOG.md)
 - Tracks: `@pinia/colada` 1.x — verified against 1.4.2 on 2026-08-23
+- Docs: https://pinia-colada.esm.dev/llms.txt
 
 ## Installation
 

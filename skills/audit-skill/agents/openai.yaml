@@ -1,0 +1,6 @@
+interface:
+  display_name: "Audit Skill"
+  short_description: "Audit catalog skills against official docs"
+  default_prompt: "Use $audit-skill to audit every skill in this catalog against official docs and apply ranked fixes."
+policy:
+  allow_implicit_invocation: true
