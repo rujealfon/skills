@@ -7,9 +7,10 @@ repository.
 
 | Skill | Description | Version | Tracks |
 | --- | --- | --- | --- |
-| [Drizzle Postgres](skills/drizzle-postgres/README.md) | Build, migrate, query, and troubleshoot PostgreSQL data layers with Drizzle ORM and Drizzle Kit. | 1.0.0 | `drizzle-orm` 0.4x / `drizzle-kit` 0.3x (2026-08-22) |
-| [Pinia Colada](skills/pinia-colada/README.md) | Build, review, migrate, test, and troubleshoot async data workflows with Pinia Colada in Vue and Nuxt applications. | 1.0.0 | `@pinia/colada` v1.x (2026-08-22) |
-| [Zod](skills/zod/README.md) | Define, validate, and parse data with Zod (v4) — schemas, refinements/transforms, error handling, codecs, JSON Schema conversion, and Zod 3 → 4 migration. | 1.0.0 | `zod` v4.x (2026-08-22) |
+| [Audit Skill](skills/audit-skill/README.md) | Audit catalog skills against official upstream docs and this repo's skill-design bar. | 1.0.1 | none |
+| [Drizzle Postgres](skills/drizzle-postgres/README.md) | Build, migrate, query, and troubleshoot PostgreSQL data layers with Drizzle ORM and Drizzle Kit. | 1.1.0 | `drizzle-orm` 0.45.x / `drizzle-kit` 0.31.x (2026-08-23) |
+| [Pinia Colada](skills/pinia-colada/README.md) | Build, review, migrate, test, and troubleshoot async data workflows with Pinia Colada in Vue and Nuxt applications. | 1.0.1 | `@pinia/colada` 1.x (2026-08-23) |
+| [Zod](skills/zod/README.md) | Define, validate, and parse data with Zod (v4) — schemas, refinements/transforms, error handling, codecs, JSON Schema conversion, and Zod 3 → 4 migration. | 1.1.0 | `zod` 4.x (2026-08-23) |
 
 ## Versioning
 
@@ -20,6 +21,14 @@ Each skill carries two independent version signals, recorded in its own `README.
 
 When adding a new skill, start it at `1.0.0`, record what you verified it against, and add a `CHANGELOG.md` alongside its `README.md`.
 
+### Adding a skill
+
+1. `skills/<name>/SKILL.md` with `name` + `description` (include `Use when the user runs /<name>`). Keep supporting docs in that directory.
+2. `README.md` with skill version, `- Tracks:` (or `none`), and `- Docs:` (llms.txt URL, or `none`).
+3. `CHANGELOG.md` starting at `1.0.0`.
+4. `agents/openai.yaml` if the skill should be implicitly invokable for OpenAI agents.
+5. One row in the **Available skills** table above.
+
 ### Declaring tracked packages
 
 Each skill README declares its tracked packages as one line per package, in this exact form so they can be checked automatically:
@@ -28,7 +37,15 @@ Each skill README declares its tracked packages as one line per package, in this
 - Tracks: `<package>` <line> — verified against <version> on <YYYY-MM-DD>
 ```
 
-`<line>` is `4.x` for a package past 1.0 (a major line), or `0.45.x` for a pre-1.0 package where minor bumps are breaking. A skill tracking several packages gets several `- Tracks:` lines.
+`<line>` is `4.x` for a package past 1.0 (a major line), or `0.45.x` for a pre-1.0 package where minor bumps are breaking. A skill tracking several packages gets several `- Tracks:` lines. A process skill with no upstream package declares `- Tracks: none` instead, so the checker skips it instead of treating a missing package line as an error.
+
+The official docs map is one line, required on every package skill:
+
+```text
+- Docs: https://zod.dev/llms.txt
+```
+
+Process skills declare `- Docs: none`. The checker requires a `https://` Docs line whenever it sees a package Tracks line; it does not fetch the URL.
 
 ### Checking for updates
 
@@ -46,7 +63,9 @@ The script reads the `- Tracks:` lines out of every skill README — they stay t
 | `WATCH` | A prerelease of a *newer* line exists upstream | A break is coming — don't rewrite yet, but plan for it |
 | `STALE` | Latest stable has moved off the tracked line | Re-verify the skill's guidance before trusting it |
 
-It exits non-zero on `STALE` (or an unreadable README) so it can gate CI, and zero on `WATCH`/`BEHIND` since neither means the skill is currently wrong.
+It exits non-zero on `STALE` (or an unreadable README) so it can gate CI, and zero on `WATCH`/`BEHIND`/`SKIP` since none of those mean the skill is currently wrong.
+
+CI (`.github/workflows/check-versions.yml`) runs the script every Monday and on pull requests that touch a skill README or the script itself. The Monday (and manual) run also opens or updates a single GitHub issue titled `skills WATCH/STALE` so a coming break is visible even though `WATCH` does not fail the job; it closes that issue when nothing is WATCH or STALE.
 
 ## Installation
 
@@ -61,15 +80,6 @@ For example:
 ```bash
 npx skills add rujealfon/skills --skill pinia-colada
 ```
-
-## Adding a skill
-
-Place each skill in its own `skills/<skill-name>/` directory with a
-`SKILL.md`. Keep skill-specific usage, installation examples, and supporting
-documentation inside that directory.
-
-When adding another skill, add one row to the **Available skills** table above
-and link to its README.
 
 ## License
 

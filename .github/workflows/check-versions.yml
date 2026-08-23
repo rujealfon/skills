@@ -1,20 +1,54 @@
 name: Check tracked package versions
 
+# Weekly clock for STALE (npm moved off the tracked line). Path-filtered
+# PRs/pushes catch a broken Tracks/Docs line or script without failing
+# unrelated work. The script already exits 0 on WATCH/BEHIND. The issue
+# step runs only on schedule/dispatch so WATCH is visible without failing PRs.
 on:
   schedule:
     # Every Monday at 09:00 UTC
     - cron: '0 9 * * 1'
-  workflow_dispatch: {}
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**/README.md'
+      - 'scripts/check-versions.mjs'
+      - 'scripts/report-version-issue.sh'
+      - '.github/workflows/check-versions.yml'
+  pull_request:
+    paths:
+      - 'skills/**/README.md'
+      - 'scripts/check-versions.mjs'
+      - 'scripts/report-version-issue.sh'
+      - '.github/workflows/check-versions.yml'
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: check-versions-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   check-versions:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
 
       - name: Check tracked package versions
-        run: node scripts/check-versions.mjs
+        run: node scripts/check-versions.mjs --json | tee versions.json
+
+      - name: Open or update WATCH/STALE issue
+        if: always() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/report-version-issue.sh versions.json
