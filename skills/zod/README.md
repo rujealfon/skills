@@ -8,6 +8,7 @@ data in TypeScript/JavaScript.
 
 - Skill version: **1.1.0** — see [CHANGELOG.md](CHANGELOG.md)
 - Tracks: `zod` 4.x — verified against 4.4.3 on 2026-08-23
+- Docs: https://zod.dev/llms.txt
 
 ## Installation
 

@@ -4,8 +4,10 @@
 // Each skill README declares its tracked packages, one per line, in the form:
 //   - Tracks: `<package>` <line> — verified against <version> on <YYYY-MM-DD>
 // where <line> is `4.x` (major line) or `0.45.x` (major.minor line, for pre-1.0
-// packages where minor bumps are breaking). The README is the single source of
-// truth; this script only reads it.
+// packages where minor bumps are breaking). A process skill with no upstream
+// package declares `- Tracks: none` instead. Package skills also need
+// `- Docs: https://...`. The README is the single source of truth; this
+// script only reads it.
 //
 // Usage: node scripts/check-versions.mjs [--json]
 
@@ -20,6 +22,11 @@ const SKILLS_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'skills')
 
 const TRACKS_RE =
   /^- Tracks: `(?<pkg>[^`]+)` (?<line>[\d.]+\.x) — verified against (?<version>\S+) on (?<date>\d{4}-\d{2}-\d{2})/gm
+
+// Process skills (no upstream package) declare this instead of a package line.
+const TRACKS_NONE_RE = /^- Tracks: none\b/m
+
+const DOCS_RE = /^- Docs: https:\/\/\S+/m
 
 const PRERELEASE_RE = /-(?:alpha|beta|rc|canary|next|dev)/
 
@@ -76,11 +83,20 @@ async function readTrackedPackages() {
       continue
     }
 
+    if (TRACKS_NONE_RE.test(readme)) {
+      skills.push({ skill: entry.name, skip: true, tracked: [] })
+      continue
+    }
+
     const tracked = [...readme.matchAll(TRACKS_RE)].map((m) => m.groups)
     if (tracked.length === 0) {
       // Loud rather than silent: an unparseable README means this skill is
       // invisible to the check, which is exactly the failure we want to catch.
       skills.push({ skill: entry.name, error: 'no parseable "- Tracks:" line' })
+      continue
+    }
+    if (!DOCS_RE.test(readme)) {
+      skills.push({ skill: entry.name, error: 'no parseable "- Docs:" line' })
       continue
     }
     skills.push({ skill: entry.name, tracked })
@@ -142,7 +158,7 @@ async function checkPackage({ pkg, line, version, date }) {
   }
 }
 
-const ICONS = { CURRENT: '✓', BEHIND: '↑', WATCH: '⚠', STALE: '✗', ERROR: '!' }
+const ICONS = { CURRENT: '✓', BEHIND: '↑', WATCH: '⚠', STALE: '✗', ERROR: '!', SKIP: '·' }
 
 async function main() {
   const asJson = process.argv.includes('--json')
@@ -150,6 +166,15 @@ async function main() {
   const results = []
 
   for (const skill of skills) {
+    if (skill.skip) {
+      results.push({
+        skill: skill.skill,
+        status: 'SKIP',
+        detail: 'process skill (Tracks: none)',
+        packages: [],
+      })
+      continue
+    }
     if (skill.error) {
       results.push({ skill: skill.skill, status: 'ERROR', detail: skill.error, packages: [] })
       continue
