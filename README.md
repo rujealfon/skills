@@ -10,7 +10,7 @@ repository.
 | [Audit Skill](skills/audit-skill/README.md) | Audit catalog skills against official upstream docs and this repo's skill-design bar. | 1.0.1 | none |
 | [Drizzle Postgres](skills/drizzle-postgres/README.md) | Build, migrate, query, and troubleshoot PostgreSQL data layers with Drizzle ORM and Drizzle Kit. | 1.1.0 | `drizzle-orm` 0.45.x / `drizzle-kit` 0.31.x (2026-08-23) |
 | [Pinia Colada](skills/pinia-colada/README.md) | Build, review, migrate, test, and troubleshoot async data workflows with Pinia Colada in Vue and Nuxt applications. | 1.0.1 | `@pinia/colada` 1.x (2026-08-23) |
-| [Zod](skills/zod/README.md) | Define, validate, and parse data with Zod (v4) — schemas, refinements/transforms, error handling, codecs, JSON Schema conversion, and Zod 3 → 4 migration. | 1.1.0 | `zod` 4.x (2026-08-23) |
+| [Zod](skills/zod/README.md) | Define, validate, and parse data with Zod (v4) — schemas, refinements/transforms, error handling, codecs, JSON Schema conversion, AOT compilation, and Zod 3 → 4 migration. | 1.2.0 | `zod` 4.x (2026-09-01) |
 
 ## Versioning
 
