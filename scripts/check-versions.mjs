@@ -9,6 +9,9 @@
 // `- Docs: https://...`. The README is the single source of truth; this
 // script only reads it.
 //
+// Also checks that each SKILL.md frontmatter is YAML the skills CLI can parse,
+// since an unparseable one drops that skill from `npx skills add` discovery.
+//
 // Usage: node scripts/check-versions.mjs [--json]
 
 import { execFile } from 'node:child_process'
@@ -29,6 +32,28 @@ const TRACKS_NONE_RE = /^- Tracks: none\b/m
 const DOCS_RE = /^- Docs: https:\/\/\S+/m
 
 const PRERELEASE_RE = /-(?:alpha|beta|rc|canary|next|dev)/
+
+const FRONTMATTER_RE = /^---\r?\n(?<body>[\s\S]*?)\r?\n---/
+
+// The `skills` CLI parses each SKILL.md frontmatter with a strict YAML parser
+// and drops a skill whose frontmatter fails to parse. An unquoted scalar value
+// containing ": " reads as a nested mapping, which is how that happens in
+// practice, so catch it here before discovery silently loses the skill.
+function frontmatterProblems(markdown) {
+  const match = markdown.match(FRONTMATTER_RE)
+  if (!match) return ['no "---" frontmatter block']
+
+  const problems = []
+  for (const line of match.groups.body.split(/\r?\n/)) {
+    const kv = line.match(/^([A-Za-z0-9_.-]+):\s?(.*)$/)
+    if (!kv) continue
+    const quoted = /^["'|>]/.test(kv[2])
+    if (!quoted && kv[2].includes(': ')) {
+      problems.push(`unquoted ": " in \`${kv[1]}\``)
+    }
+  }
+  return problems
+}
 
 /** Split "1.2.3" into [1, 2, 3]. Returns null for anything non-numeric. */
 function parseVersion(version) {
@@ -74,17 +99,18 @@ async function readTrackedPackages() {
   const skills = []
 
   for (const entry of entries.filter((e) => e.isDirectory()).sort()) {
-    const readmePath = join(SKILLS_DIR, entry.name, 'README.md')
-    let readme
-    try {
-      readme = await readFile(readmePath, 'utf8')
-    } catch {
-      skills.push({ skill: entry.name, error: 'no README.md' })
+    const skillDir = join(SKILLS_DIR, entry.name)
+    const skillMd = await readFile(join(skillDir, 'SKILL.md'), 'utf8').catch(() => null)
+    const frontmatter = skillMd === null ? ['no SKILL.md'] : frontmatterProblems(skillMd)
+
+    const readme = await readFile(join(skillDir, 'README.md'), 'utf8').catch(() => null)
+    if (readme === null) {
+      skills.push({ skill: entry.name, error: 'no README.md', frontmatter })
       continue
     }
 
     if (TRACKS_NONE_RE.test(readme)) {
-      skills.push({ skill: entry.name, skip: true, tracked: [] })
+      skills.push({ skill: entry.name, skip: true, tracked: [], frontmatter })
       continue
     }
 
@@ -92,14 +118,14 @@ async function readTrackedPackages() {
     if (tracked.length === 0) {
       // Loud rather than silent: an unparseable README means this skill is
       // invisible to the check, which is exactly the failure we want to catch.
-      skills.push({ skill: entry.name, error: 'no parseable "- Tracks:" line' })
+      skills.push({ skill: entry.name, error: 'no parseable "- Tracks:" line', frontmatter })
       continue
     }
     if (!DOCS_RE.test(readme)) {
-      skills.push({ skill: entry.name, error: 'no parseable "- Docs:" line' })
+      skills.push({ skill: entry.name, error: 'no parseable "- Docs:" line', frontmatter })
       continue
     }
-    skills.push({ skill: entry.name, tracked })
+    skills.push({ skill: entry.name, tracked, frontmatter })
   }
 
   return skills
@@ -166,6 +192,15 @@ async function main() {
   const results = []
 
   for (const skill of skills) {
+    if (skill.frontmatter?.length) {
+      results.push({
+        skill: skill.skill,
+        status: 'ERROR',
+        detail: `SKILL.md frontmatter: ${skill.frontmatter.join('; ')}`,
+        packages: [],
+      })
+      continue
+    }
     if (skill.skip) {
       results.push({
         skill: skill.skill,
@@ -201,7 +236,8 @@ async function main() {
   }
 
   // Non-zero only when something genuinely needs a human: a tracked line that
-  // no longer exists upstream, or a README this script cannot read.
+  // no longer exists upstream, a README this script cannot read, or a SKILL.md
+  // frontmatter the skills CLI cannot parse.
   const needsAction = results.some((r) => r.status === 'STALE' || r.status === 'ERROR')
   process.exit(needsAction ? 1 : 0)
 }
