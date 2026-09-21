@@ -31,7 +31,7 @@ const lines = [
   "",
 ]
 for (const r of results.filter((s) => s.status === "WATCH" || s.status === "STALE")) {
-  lines.push(`- **${r.skill}** — ${r.status}`)
+  lines.push(`- **${r.skill}**: ${r.status}`)
   for (const p of r.packages ?? []) {
     if (p.status === "WATCH" || p.status === "STALE") {
       lines.push(`  - \`${p.pkg}\` ${p.line}: ${p.detail}`)

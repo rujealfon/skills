@@ -1,12 +1,12 @@
-# Zod Skill
+# Zod skill
 
-Define, validate, and parse data with Zod (v4) — request bodies, form inputs,
+Define, validate, and parse data with Zod (v4): request bodies, form inputs,
 environment variables, API responses, and any other untrusted or external
 data in TypeScript/JavaScript.
 
 ## Version
 
-- Skill version: **1.3.0** — see [CHANGELOG.md](CHANGELOG.md)
+- Skill version: **1.3.0**, see [CHANGELOG.md](CHANGELOG.md)
 - Tracks: `zod` 4.x — verified against 4.6.5 on 2026-09-21
 - Docs: https://zod.dev/llms.txt
 
@@ -28,7 +28,7 @@ Use $zod to validate this API request body and infer its TypeScript type.
 
 Zod 4 schemas, refinements/transforms (including `.overwrite()`), codecs, errors, JSON Schema, metadata/registries, AOT compilation (`z.compile()`, `z.withParser()`), and Zod 3 → 4 migration. The installed `zod` version is the API authority.
 
-Won't add: ecosystem catalog, library-authors packaging beyond the existing Mini/core pointer, compile internals / Moltar charts / memory-footprint blog, locale inventory, `__proto__` stripping, `fromJSONSchema` draft-edge cases, the transient 4.6.0–4.6.2 standalone `z.properties()` schema (reverted in 4.6.3).
+Won't add: ecosystem catalog, library-authors packaging beyond the existing Mini/core pointer, compile internals / Moltar charts / memory-footprint blog, locale inventory, `__proto__` stripping, `fromJSONSchema` draft-edge cases, the transient 4.6.0-4.6.2 standalone `z.properties()` schema (reverted in 4.6.3).
 
 ## Contents
 
