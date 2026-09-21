@@ -139,7 +139,7 @@ async function checkPackage({ pkg, line, version, date }) {
     detail = `${newestInLine} available in-line (verified against ${version})`
   } else if (pendingNewerLine) {
     status = 'WATCH'
-    detail = `${pendingNewerLine} in prerelease — a breaking line is coming`
+    detail = `${pendingNewerLine} in prerelease, so a breaking line is coming`
   } else {
     status = 'CURRENT'
     detail = `up to date with ${latestStable}`
@@ -191,7 +191,7 @@ async function main() {
     console.log(JSON.stringify(results, null, 2))
   } else {
     for (const result of results) {
-      console.log(`${ICONS[result.status]} ${result.skill} — ${result.status}`)
+      console.log(`${ICONS[result.status]} ${result.skill}: ${result.status}`)
       if (result.detail) console.log(`    ${result.detail}`)
       for (const p of result.packages) {
         console.log(`    ${ICONS[p.status]} ${p.pkg} ${p.line}: ${p.detail}`)
