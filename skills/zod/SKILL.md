@@ -1,6 +1,6 @@
 ---
 name: zod
-description: Define, validate, and parse data with Zod (v4) in TypeScript/JavaScript: request bodies, form inputs, environment variables, API responses, config files, CLI args, and any other untrusted or external data. Use when writing a `z.object`/`z.string`/`z.array` schema, calling `.parse()`/`.safeParse()`/`z.validate()`, inferring types with `z.infer<>`, matching an existing type with `z.toZod`, compiling with `z.compile()`, adding refinements/transforms/codecs, customizing Zod errors, converting to JSON Schema, or migrating Zod 3 → 4, even if they just say "validate this input" or "parse this form." Use when the user runs /zod. Also covers Zod Mini and Zod Core.
+description: Define, validate, and parse data with Zod (v4) in TypeScript/JavaScript for request bodies, form inputs, environment variables, API responses, config files, CLI args, and any other untrusted or external data. Use when writing a `z.object`/`z.string`/`z.array` schema, calling `.parse()`/`.safeParse()`/`z.validate()`, inferring types with `z.infer<>`, matching an existing type with `z.toZod`, compiling with `z.compile()`, adding refinements/transforms/codecs, customizing Zod errors, converting to JSON Schema, or migrating Zod 3 → 4, even if they just say "validate this input" or "parse this form." Use when the user runs /zod. Also covers Zod Mini and Zod Core.
 ---
 
 # Zod
