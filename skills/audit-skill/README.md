@@ -1,12 +1,12 @@
-# Audit Skill
+# Audit skill
 
 Audit agent skills in a skills.sh catalog against official upstream docs
 and this repo's skill-design bar.
 
 ## Version
 
-- Skill version: **1.0.1** — see [CHANGELOG.md](CHANGELOG.md)
-- Tracks: none — process skill, no upstream package
+- Skill version: **1.0.1**. See [CHANGELOG.md](CHANGELOG.md)
+- Tracks: none, process skill with no upstream package
 - Docs: none
 
 ## Installation
@@ -25,7 +25,7 @@ Use $audit-skill to audit every skill in this catalog against official docs and 
 
 ## Coverage
 
-The workflow: clock (`scripts/check-versions.mjs` when present), coverage map from the library `llms.txt`, Context7 examples, live pages for version-sensitive claims, tagged findings (`wrong`/`gap`/`stale`/`design`/`skip`), ranked apply, CHANGELOG "Won't add".
+The workflow runs `scripts/check-versions.mjs` when present, reads the library `llms.txt` as the coverage map, queries Context7 for examples, checks live pages for version-sensitive claims, tags findings as `wrong`, `gap`, `stale`, `design`, or `skip`, applies fixes in rank order, and records "Won't add" in the CHANGELOG.
 
 ## Contents
 
