@@ -62,7 +62,7 @@ The script reads the `- Tracks:` lines out of every skill README, which stay the
 | `WATCH` | A prerelease of a *newer* line exists upstream | A break is coming. Don't rewrite yet; plan for it |
 | `STALE` | Latest stable has moved off the tracked line | Re-verify the skill's guidance before trusting it |
 
-It exits non-zero on `STALE` (or an unreadable README) so it can gate CI, and zero on `WATCH`/`BEHIND`/`SKIP` since none of those mean the skill is currently wrong.
+It exits non-zero on `STALE`, an unreadable README, or a `SKILL.md` frontmatter the skills CLI cannot parse, so it can gate CI. It exits zero on `WATCH`/`BEHIND`/`SKIP`, since none of those mean the skill is currently wrong.
 
 CI (`.github/workflows/check-versions.yml`) runs the script every Monday and on pull requests that touch a skill README or the script itself. The Monday (and manual) run also opens or updates a single GitHub issue titled `skills WATCH/STALE` so a coming break is visible even though `WATCH` does not fail the job; it closes that issue when nothing is WATCH or STALE.
 
