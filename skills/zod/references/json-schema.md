@@ -104,6 +104,8 @@ const jsonSchema = {
 const zodSchema = z.fromJSONSchema(jsonSchema);
 ```
 
+As of 4.6 it also enforces `minProperties`/`maxProperties`, `uniqueItems`, and `contains`/`minContains`/`maxContains`. Property bounds count the input's own keys; array uniqueness is structural, so `[{ a: 1 }, { a: 1 }]` is a duplicate.
+
 ## Registries: multi-schema output
 
 For a set of interlinked schemas (e.g. to write out as separate `.json` files), register each with an `id` and pass the registry itself into `z.toJSONSchema()`. Only schemas with a registered `id` are included.

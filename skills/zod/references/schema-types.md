@@ -119,6 +119,8 @@ z.mac();
 z.cidrv4();
 z.cidrv6();
 z.creditCard(); // 12–19 digits, optional single spaces/hyphens, Luhn checksum (4.5+)
+z.iban();         // electronic format, ISO 7064 MOD 97-10 checksum (4.6+)
+z.currencyCode(); // ISO 4217 code, e.g. "USD" (4.6.4+)
 z.hash("sha256"); // or "sha1" | "sha384" | "sha512" | "md5"
 z.iso.date();
 z.iso.time();
@@ -184,6 +186,14 @@ z.mac({ delimiter: "-" }).parse("00-1A-2B-3C-4D-5E");
 ```typescript
 z.creditCard().parse("4111 1111 1111 1111"); // ✅
 z.creditCard().parse("4111111111111112");    // ❌ checksum
+```
+
+**IBAN and currency**: `z.iban()` (4.6+) takes an electronic-format IBAN with a valid ISO 7064 MOD 97-10 checksum (no grouping or spaces). `z.currencyCode()` (4.6.4+) takes an ISO 4217 code; the list is vendored and refreshed by CI, so it moves between patch releases.
+
+```typescript
+z.iban().parse("DE89370400440532013000"); // ✅
+z.iban().parse("DE89370400440532013001"); // ❌ checksum
+z.currencyCode().parse("USD");            // ✅
 ```
 
 **JWTs and hashes**:
@@ -549,13 +559,16 @@ const httpsOnly = z.instanceof(URL).check(
 );
 ```
 
-`.properties({...})` (4.5+) checks several properties at once and narrows the inferred type. The underlying `z.properties()` is a standalone schema: it asserts in place and returns the same instance (no clone, prototypes survive). Transforms/defaults inside the shape are validated then discarded. Spreading into `.check()` works too: `z.instanceof(Response).check(...z.properties({ status: z.number().min(200) }))`.
+`.properties({...})` (4.6+) checks several properties at once and narrows the inferred type — it is a method on `z.instanceof()`. The input is returned untouched (no clone, so prototypes and methods survive); transforms/defaults inside the shape are validated then discarded. `z.properties({...})` itself is a **check** (4.5+) — spread it into `.check()` when you don't need the narrowed type:
 
 ```typescript
 const okResponse = z.instanceof(Response).properties({
   status: z.number().min(200).max(299),
   redirected: z.literal(false),
 });
+
+// check form (4.5+), e.g. in Zod Mini
+z.instanceof(Response).check(...z.properties({ status: z.number().min(200) }));
 ```
 
 ## Matching an existing type

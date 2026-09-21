@@ -51,3 +51,16 @@ Invalid input also falls back to the uncompiled parser, so compilation does not 
 Compilation uses `new Function`. Global mode stands down under `z.config({ jitless: true })`. A direct `z.compile()` still tries; if the environment rejects it, the schema comes back uncompiled.
 
 The compiler is ~7 KB gzipped when used and tree-shaken completely when nothing calls `z.compile()` or imports `zod/compile`.
+
+## `z.withParser()` (4.6+)
+
+`z.compile()` builds its parser with `new Function`, which a strict Content Security Policy blocks. When the parser is generated elsewhere — at build time or by a native compiler — install it with `z.withParser(schema, parser)`. The parser returns the parsed value, or `z.INVALID` to hand the parse back to the runtime schema. It returns the same schema type, so the result composes like any other schema.
+
+```typescript
+const Player = z.object({ username: z.string(), xp: z.number() });
+
+// isPlayer is a type guard your build step generated
+const Fast = z.withParser(Player, (input) =>
+  isPlayer(input) ? { username: input.username, xp: input.xp } : z.INVALID
+);
+```
