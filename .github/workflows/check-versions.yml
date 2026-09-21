@@ -13,12 +13,14 @@ on:
     branches: [main]
     paths:
       - 'skills/**/README.md'
+      - 'skills/**/SKILL.md'
       - 'scripts/check-versions.mjs'
       - 'scripts/report-version-issue.sh'
       - '.github/workflows/check-versions.yml'
   pull_request:
     paths:
       - 'skills/**/README.md'
+      - 'skills/**/SKILL.md'
       - 'scripts/check-versions.mjs'
       - 'scripts/report-version-issue.sh'
       - '.github/workflows/check-versions.yml'
@@ -45,7 +47,9 @@ jobs:
           node-version: 22
 
       - name: Check tracked package versions
-        run: node scripts/check-versions.mjs --json | tee versions.json
+        run: |
+          set -o pipefail
+          node scripts/check-versions.mjs --json | tee versions.json
 
       - name: Open or update WATCH/STALE issue
         if: always() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
