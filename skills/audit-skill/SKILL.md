@@ -1,6 +1,6 @@
 ---
 name: audit-skill
-description: Audit agent skills in a skills.sh catalog against official upstream docs: llms.txt, Context7, and live API pages, plus the skill-design bar. Use when the user says "audit our skills", "full audit", "refresh this skill against the docs", "is this skill stale", or runs /audit-skill. Also use when check-versions reports STALE or WATCH and the skill content needs a docs-backed refresh, not just a date bump.
+description: Audit agent skills in a skills.sh catalog against official upstream docs including llms.txt, Context7, and live API pages, plus the skill-design bar. Use when the user says "audit our skills", "full audit", "refresh this skill against the docs", "is this skill stale", or runs /audit-skill. Also use when check-versions reports STALE or WATCH and the skill content needs a docs-backed refresh, not just a date bump.
 ---
 
 # Audit catalog skills
