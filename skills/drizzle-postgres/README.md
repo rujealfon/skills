@@ -5,9 +5,9 @@ ORM and Drizzle Kit.
 
 ## Version
 
-- Skill version: **1.2.0**. See [CHANGELOG.md](CHANGELOG.md).
-- Tracks: `drizzle-orm` 0.45.x — verified against 0.45.3 on 2026-10-07
-- Tracks: `drizzle-kit` 0.31.x — verified against 0.31.11 on 2026-10-07
+- Skill version: **1.2.1**. See [CHANGELOG.md](CHANGELOG.md).
+- Tracks: `drizzle-orm` 0.45.x — verified against 0.45.4 on 2026-10-13
+- Tracks: `drizzle-kit` 0.31.x — verified against 0.31.11 on 2026-10-13
 - Docs: https://orm.drizzle.team/llms.txt
 - **Pending upstream: `drizzle-orm` 1.0** is in release candidate (1.0.0-rc.5). 0.45.x remains the primary target. 1.0 breaking changes live in [references/migration-0.45-to-1.0.md](references/migration-0.45-to-1.0.md). When 1.0 ships stable, re-verify that reference, flip the primary target, and bump the tracked line.
 
