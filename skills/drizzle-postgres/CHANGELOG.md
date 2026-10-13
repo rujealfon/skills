@@ -2,6 +2,12 @@
 
 Versions here track this skill's own content (instructions and references), not the `drizzle-orm`/`drizzle-kit` package versions. See the [README](README.md#version) for which lines this skill was last verified against.
 
+## 1.2.1 - 2026-10-13
+
+Re-verified against `drizzle-orm` 0.45.4 and `drizzle-kit` 0.31.11. 0.45.x remains the primary target. `drizzle-kit` `latest` is still 0.31.11; the newest 1.0 publish is still `1.0.0-rc.5-5935859`, so the tracked lines stay put.
+
+- `drizzle-orm` 0.45.4 only makes postgres.js honor an explicit `.prepare(name)`. `{ prepare: false }` on the client still disables prepared statements, including that named form. No guidance change.
+
 ## 1.2.0 - 2026-10-07
 
 Re-verified against `drizzle-orm` 0.45.3 and `drizzle-kit` 0.31.11. 0.45.x remains the primary target.

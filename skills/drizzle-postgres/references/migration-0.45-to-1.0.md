@@ -1,6 +1,6 @@
 # Migrating Drizzle 0.45.x → 1.0
 
-> **Status: draft, written against `drizzle-orm`/`drizzle-kit` 1.0.0-rc.5 and the official [v0 → v1 updates](https://orm.drizzle.team/docs/v0-v1-changes).** As of 2026-10-07 the stable release is 0.45.3, and 1.0 is still in release candidate. An RC can still change before it ships. Treat the installed package as the authority, and prefer 0.45.x guidance for any project that hasn't deliberately opted into the RC.
+> **Status: draft, written against `drizzle-orm`/`drizzle-kit` 1.0.0-rc.5 and the official [v0 → v1 updates](https://orm.drizzle.team/docs/v0-v1-changes).** As of 2026-10-13 the stable release is 0.45.4, and 1.0 is still in release candidate (`1.0.0-rc.5`). An RC can still change before it ships. Treat the installed package as the authority, and prefer 0.45.x guidance for any project that hasn't deliberately opted into the RC.
 
 Drizzle 1.0 is the first release to break the schema-definition API in a way that silently changes generated SQL rather than producing a type error. The two changes that matter most are casing and relations, so this covers them first.
 
