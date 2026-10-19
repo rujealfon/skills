@@ -452,6 +452,8 @@ z.array(z.string()).max(5);
 z.array(z.string()).length(5);
 ```
 
+**Upper bound before the walk (4.6.6+).** On an array, set, or map, a `.max()`, `.length()`, or `.size()` that comes before every other check rejects an oversized input before any element is parsed. `safeParse` then reports only `too_big`, not one issue per element. Put that bound first on untrusted input. A check ahead of it, such as `.overwrite()` or `.refine()`, can change the length, so the bound runs after the walk and element issues come back. `.min()` does not skip the walk. An unbounded container still parses every element.
+
 Tuples are fixed-length, per-index-typed. A rest argument makes the tail variadic:
 
 ```typescript
@@ -530,6 +532,8 @@ z.set(z.string()).min(5);
 z.set(z.string()).max(5);
 z.set(z.string()).size(5);
 ```
+
+Upper bounds on sets and maps follow [Arrays and tuples](#arrays-and-tuples).
 
 ## Files
 

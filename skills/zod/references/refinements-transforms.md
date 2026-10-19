@@ -220,6 +220,8 @@ const jsonSchema = z.json(); // validates any JSON-encodable value
 
 Equivalent to a lazily-defined recursive union of string/number/boolean/null/array/record.
 
+zod 4.5.0–4.6.5 reports TS5115 on `z.json()` and `z.record()` under the TypeScript 7.1 rule that a base type argument cannot read the interface being declared. `z.record(z.string(), z.json())` also infers `Record<string, any>`, and `skipLibCheck` does not hide that case. Fixed in 4.6.6. Upgrade instead of rewriting the schema.
+
 ## Functions
 
 `z.function()` keeps input/output validation out of your business logic:
