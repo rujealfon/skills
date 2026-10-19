@@ -1,6 +1,6 @@
 # Migrating Drizzle 0.45.x → 1.0
 
-> **Status: draft, written against `drizzle-orm`/`drizzle-kit` 1.0.0-rc.5 and the official [v0 → v1 updates](https://orm.drizzle.team/docs/v0-v1-changes).** As of 2026-10-13 the stable release is 0.45.4, and 1.0 is still in release candidate (`1.0.0-rc.5`). An RC can still change before it ships. Treat the installed package as the authority, and prefer 0.45.x guidance for any project that hasn't deliberately opted into the RC.
+> **Status: draft, written against `drizzle-orm`/`drizzle-kit` 1.0.0-rc.5-5935859 and the official [v0 → v1 updates](https://orm.drizzle.team/docs/v0-v1-changes).** As of 2026-10-20 the stable release is `drizzle-orm` 0.45.4 and `drizzle-kit` 0.31.11, and 1.0 is still that same release candidate. An RC can still change before it ships. Treat the installed package as the authority, and prefer 0.45.x guidance for any project that hasn't deliberately opted into the RC.
 
 Drizzle 1.0 is the first release to break the schema-definition API in a way that silently changes generated SQL rather than producing a type error. The two changes that matter most are casing and relations, so this covers them first.
 
@@ -134,6 +134,7 @@ These don't break existing 0.45.x code, but they change the best choice on a 1.0
 
 - **Codecs.** Driver-aware cast/normalize layer (regular SELECT, JSON/RQB context, INSERT params). Each driver enables them by default; override via `drizzle(client, { codecs: { ... } })`. Deep reference: [Codecs](https://orm.drizzle.team/docs/codecs).
 - **SQL comments.** `.comment("tag")` or `.comment({ key: 'val' })` on select/insert/update/delete, appended as sqlcommenter. Apply them *before* `.prepare()`. Deep reference: [SQL comments](https://orm.drizzle.team/docs/sql-comments).
+- **Column `.as()`.** `users.age.as('ageOfUser')` names a selected column. Self-joins still use `alias(table, 'name')` ([queries.md](queries.md)). Deep reference: [Aliases](https://orm.drizzle.team/docs/aliases).
 - **JIT mappers.** `drizzle({ jit: true })`. Deep reference: [JIT mappers](https://orm.drizzle.team/docs/jit-mappers).
 - **Drizzle Kit.** `push --explain`, `pull --init`, commutativity `check`, top-level `await` in config, tsx loader.
 - **New drivers.** Effect Postgres (`drizzle-orm/effect-postgres`), plus the MSSQL and CockroachDB dialects (out of this skill's Postgres scope). Netlify DB also ships on 0.45.3; see [connections.md](connections.md).

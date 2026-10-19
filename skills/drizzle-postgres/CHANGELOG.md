@@ -2,6 +2,15 @@
 
 Versions here track this skill's own content (instructions and references), not the `drizzle-orm`/`drizzle-kit` package versions. See the [README](README.md#version) for which lines this skill was last verified against.
 
+## 1.2.2 - 2026-10-20
+
+Re-verified against `drizzle-orm` 0.45.4 and `drizzle-kit` 0.31.11. 0.45.x remains the primary target. The newest 1.0 publish is still `1.0.0-rc.5-5935859`.
+
+- The v0 → v1 page's column `.as()` (`users.age.as('ageOfUser')`) is now in the 1.0 notes. Self-join table aliases stay in the queries reference.
+- Drop the stale "as of 2026-08-22" date from SKILL.md. The migration note owns the RC identity and the check date.
+
+Won't add: 1.0's optional `.prepare()` name (passing a name still works); the kit's schema file-extension allowlist.
+
 ## 1.2.1 - 2026-10-13
 
 Re-verified against `drizzle-orm` 0.45.4 and `drizzle-kit` 0.31.11. 0.45.x remains the primary target. `drizzle-kit` `latest` is still 0.31.11; the newest 1.0 publish is still `1.0.0-rc.5-5935859`, so the tracked lines stay put.
