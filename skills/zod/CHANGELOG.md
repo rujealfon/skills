@@ -2,6 +2,15 @@
 
 Versions here track this skill's own content (instructions and references), not the `zod` package version. See the [README](README.md#version) for which `zod` line this skill was last verified against.
 
+## 1.3.1 - 2026-10-20
+
+Re-verified against `zod` 4.6.7. 4.6.7 is a version-only republish of 4.6.6.
+
+- Arrays, sets, and maps: a leading `.max()`, `.length()`, or `.size()` (4.6.6) rejects an oversized input before elements are parsed and reports only `too_big`. A check placed first (`.refine()`, `.overwrite()`) keeps the walk-then-bound order. `.min()` and unbounded containers still walk every element.
+- `z.json()` / `z.record()` TS5115 on TypeScript 7.1, with the record input collapsing to `any`, is fixed in 4.6.6. Upgrade rather than rewriting the schema.
+
+Won't add: a public `abortEarly` parse option (proposed, not in 4.6.7). The union-option reporting fix on `main` is not in 4.6.7.
+
 ## 1.3.0 - 2026-09-21
 
 Docs-backed refresh against `zod` 4.6.5 and https://zod.dev/llms.txt.

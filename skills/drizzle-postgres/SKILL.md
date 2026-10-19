@@ -5,7 +5,7 @@ description: Build, review, migrate, and troubleshoot PostgreSQL data layers wit
 
 # Drizzle ORM (PostgreSQL)
 
-Drizzle's API differs between versions. The relations API changed from `relations()`/`one()`/`many()` to `defineRelations()`/`r.one`/`r.many`, and Drizzle 1.0 (in release candidate as of 2026-08-22, with 0.45.x still stable) removes the legacy `relations()` export entirely and moves camelCase→snake_case mapping from a global config option to per-table builders. Treat the target project's installed `drizzle-orm` and `drizzle-kit` versions and local type declarations as authoritative; use the references below as a curated starting point, not a substitute for checking what's actually installed.
+Drizzle's API differs between versions. The relations API changed from `relations()`/`one()`/`many()` to `defineRelations()`/`r.one`/`r.many`, and Drizzle 1.0 (still a release candidate; 0.45.x is the stable line) removes the legacy `relations()` export entirely and moves camelCase→snake_case mapping from a global config option to per-table builders. Treat the target project's installed `drizzle-orm` and `drizzle-kit` versions and local type declarations as authoritative; use the references below as a curated starting point, not a substitute for checking what's actually installed.
 
 ## Start from the project
 
