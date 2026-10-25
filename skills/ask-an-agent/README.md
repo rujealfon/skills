@@ -4,7 +4,7 @@ Answer a question read-only, delegating to a read-only subagent when the coding 
 
 ## Version
 
-- Skill version: **1.0.0**. See [CHANGELOG.md](CHANGELOG.md)
+- Skill version: **1.0.1**. See [CHANGELOG.md](CHANGELOG.md)
 - Tracks: none, process skill with no upstream package
 - Docs: none
 
@@ -24,7 +24,7 @@ Use $ask-an-agent to explain how authentication works in this repo, without chan
 
 ## Coverage
 
-Turn the question into a self-contained assignment, hand it to a read-only subagent (or investigate directly with read-only tools), verify the claims that matter, and answer with file references. Never edits files or runs state-changing commands. Works in any coding agent.
+Turn the question into a self-contained assignment, hand it to a read-only subagent (or investigate directly with read-only tools), verify the claims that matter, and answer with file references. Uses read-only tools only (search, read, web lookup) and never edits files or runs state-changing commands. Works in any coding agent.
 
 ## Contents
 
