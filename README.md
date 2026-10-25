@@ -6,6 +6,7 @@ A skills.sh-compatible catalog of reusable agent skills.
 
 | Skill | Description | Version | Tracks |
 | --- | --- | --- | --- |
+| [Ask an Agent](skills/ask-an-agent/README.md) | Answer a question read-only, delegating to a read-only subagent when the coding agent supports one, with no file edits. | 1.0.0 | none |
 | [Audit Skill](skills/audit-skill/README.md) | Audit catalog skills against official upstream docs and this repo's skill-design bar. | 1.0.1 | none |
 | [Drizzle Postgres](skills/drizzle-postgres/README.md) | Build, migrate, query, and troubleshoot PostgreSQL data layers with Drizzle ORM and Drizzle Kit. | 1.2.2 | `drizzle-orm` 0.45.x / `drizzle-kit` 0.31.x (2026-10-20) |
 | [Pinia Colada](skills/pinia-colada/README.md) | Build, review, migrate, test, and troubleshoot async data workflows with Pinia Colada in Vue and Nuxt applications. | 1.0.4 | `@pinia/colada` 1.x (2026-10-20) |
