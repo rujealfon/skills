@@ -2,6 +2,10 @@
 
 Versions here track this skill's own content (instructions and references), not the `@pinia/colada` package version. See the [README](README.md#version) for which line this skill was last verified against.
 
+## 1.0.5 - 2026-11-05
+
+Re-verified against `@pinia/colada` 1.4.9. The release is a single bug fix: since 1.2.0, when the last consumer of a query unmounted, the in-flight fetch was aborted only while the entry had no data yet, so a refetch of cached data or a streaming query that publishes chunks kept running after unmount (leaking open streams). [queries.md](references/queries.md) now lists the third abort condition for the `signal`: the last consumer unmounts while the query function is still running, regardless of published data (1.4.9 behavior).
+
 ## 1.0.4 - 2026-10-20
 
 Re-verified against `@pinia/colada` 1.4.8. The release is bug fixes only: stale GC keeps replacement entries, and `defineQuery` stores ensured-state and scope refcounts per query cache so one SSR request cannot leak into another. [integrations.md](references/integrations.md) already says not to share a query cache across requests, so no instruction changed.

@@ -193,7 +193,8 @@ Call defined queries within component setup, a store, or an active effect scope 
 `signal` on the query context is an `AbortSignal`. It aborts when:
 
 - a new request for the same key starts (the previous pending call is aborted first);
-- `queryCache.cancelQueries({ key })` or `queryCache.cancel(entry)` runs.
+- `queryCache.cancelQueries({ key })` or `queryCache.cancel(entry)` runs;
+- the last consumer unmounts while the query function is still running. Since 1.4.9 this happens even when the entry already has data, so a refetch of cached data or a streaming query publishing chunks no longer keeps running (and serverside streams leak) after unmount. Before 1.4.9 only a fetch that had not yet published data was aborted.
 
 Without passing `signal` into `fetch`/the client, Colada still discards the obsolete result, but the HTTP work keeps running. Invalidation marks data stale and refetches active matches; cancellation aborts in-flight work without refetching. During an optimistic mutation, snapshot current data, cancel related in-flight queries, then write the optimistic value so an older response cannot overwrite it.
 
