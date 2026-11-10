@@ -9,7 +9,7 @@ A skills.sh-compatible catalog of reusable agent skills.
 | [Ask an Agent](skills/ask-an-agent/README.md) | Answer a question read-only, delegating to a read-only subagent when the coding agent supports one, with no file edits. | 1.0.1 | none |
 | [Audit Skill](skills/audit-skill/README.md) | Audit catalog skills against official upstream docs and this repo's skill-design bar. | 1.0.1 | none |
 | [Drizzle Postgres](skills/drizzle-postgres/README.md) | Build, migrate, query, and troubleshoot PostgreSQL data layers with Drizzle ORM and Drizzle Kit. | 1.2.2 | `drizzle-orm` 0.45.x / `drizzle-kit` 0.31.x (2026-10-20) |
-| [Pinia Colada](skills/pinia-colada/README.md) | Build, review, migrate, test, and troubleshoot async data workflows with Pinia Colada in Vue and Nuxt applications. | 1.0.4 | `@pinia/colada` 1.x (2026-10-20) |
+| [Pinia Colada](skills/pinia-colada/README.md) | Build, review, migrate, test, and troubleshoot async data workflows with Pinia Colada in Vue and Nuxt applications. | 1.0.5 | `@pinia/colada` 1.x (2026-11-05) |
 | [Resolving Merge Conflicts](skills/resolving-merge-conflicts/README.md) | Resolve an in-progress git merge or rebase by preserving both intents and finishing the project's checks. | 1.0.0 | none |
 | [Zod](skills/zod/README.md) | Define, validate, and parse data with Zod (v4): schemas, refinements/transforms, error handling, codecs, JSON Schema conversion, AOT compilation, and Zod 3 → 4 migration. | 1.3.1 | `zod` 4.x (2026-10-20) |
 
